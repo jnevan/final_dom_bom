@@ -5,23 +5,22 @@
 </head>
 <body>
 <form >
-<div>
-
 <h1 id="titulo">Registro de Estudiante</h1>
-Codigo: <input type="text" id="codigo"/><br>
-Nombre: <input type="text" id="nombre"/><br>
-Curso: <input type="text" id="curso" /><br>
-Nota: <input type="text" id="nota"/><br>
-
+<div> Codigo: </div><div><input type="text" id="codigo"/></div>
+<div>Nombre: </div><div><input type="text" id="nombre"/></div>
+<div>Curso: </div><div><input type="text" id="curso" /></div>
+<div>Nota:</div><div> <input type="text" id="nota"/>
 </div>
 </form>
-	<table id="estudiantes" border="1">	
-	</table>
-	
+<br>
     <button id="btn1"> Registrar Estudiante</button>
-    <button class="btn">Mostrar Promedio</button> 
-    <button class="btn">Mostrar Nota Mayor</button>
-    <button class="btn">Mostrar Nota Menor</button>
+    <button id="btn2">Mostrar Promedio</button> 
+    <button id="btn3">Mostrar Nota Mayor</button>
+    <button id="btn4">Mostrar Nota Menor</button>
+	
+<h1 id="titulo">Listado de Estudiante</h1>
+<table id="estudiantes" border="1">	
+</table>
 
 </body>
 <script>
@@ -35,23 +34,27 @@ function Estudiante(codigo, nombre, curso, nota) {
 			}
 
 var estudiantes=[];
+
 document.getElementById("btn1").addEventListener("click", function() {
 			//JSON.stringify(this.sitiosGuardados)
 			
 			var codigo = document.getElementById("codigo").value;
 			var nombre = document.getElementById("nombre").value;
 			var curso = document.getElementById("curso").value;
-			var nota = document.getElementById("nota").value;
+			var nota = parseFloat(document.getElementById("nota").value);
 		
 			estudiantes.push(new Estudiante(codigo,nombre,curso,nota));
 		//	alert(JSON.stringify(estudiantes));
 			leerJSON(estudiantes);
 			});
+document.getElementById("btn2").addEventListener("click", function() {calcularPromedio(estudiantes)});
+document.getElementById("btn3").addEventListener("click", function() {calcularMayorNota(estudiantes)});
+document.getElementById("btn4").addEventListener("click", function() {calcularMenorNota(estudiantes)});
 function leerJSON(json) {
-    var out = "Estudiantes <tr><th>Codigo</th><th>Nombre Completo</th><th>Nota</th></tr>";
+    var out = "Estudiantes <tr><th>Codigo</th><th>Nombre Completo</th><th>Curso</th><th>Nota</th></tr>";
     var i;
     for (i = 0; i < json.length; i++) {
-        out += "<tr><td>" + json[i].codigo + "</td><td>" + json[i].nombre + "</td><td>" + json[i].nota +"</td></tr>";
+        out += "<tr><td>" + json[i].codigo + "</td><td>" + json[i].nombre + "</td><td>" + json[i].curso +"</td><td>" + json[i].nota +"</td></tr>";
     }
     document.getElementById("estudiantes").innerHTML = out;
 }			
@@ -67,37 +70,37 @@ function crearElemento() {
 
 function calcularPromedio(json) {
 
-    var out = "-----------Nota Promedio-----------<br>";
     var totalNotas = 0.0;
     for (i = 0; i < json.length; i++) {
         totalNotas += json[i].nota;
+		
     }
-    alert(out + "El promedio de Notas es : " + totalNotas/json.length);
+	var promedio= totalNotas/json.length;
+    alert("El promedio de Notas es : "+ promedio );
 }
 
 function calcularMayorNota(json) {
-    var out = "-----------Estudiante con Mayor Nota-----------<br>";
+ 
 	var estudiante="";
     var max = 0.0;
     for (i = 0; i < json.length; i++) {
 		 if(max < json[i].nota){
 			max = json[i].nota;
-			estudiante = "Codigo: " + json[i].codigo + " - Nombre: " + json[i].nombre + " - Nota: " + max;
+			estudiante = "Nombre: " + json[i].nombre + " - Nota: " + max;
 		}       
     }
-    alert(out + estudiante);
+    alert(estudiante);
 }
 function calcularMenorNota(json) {
-    var out = "-----------Estudiante con Menor Nota-----------<br>";
 	var estudiante="";
     var min = json[0].nota;
     for (i = 1; i < json.length; i++) {
 		 if(min > json[i].nota){
 			min = json[i].nota;
-			estudiante = "Codigo: " + json[i].codigo + " - Nombre: " + json[i].nombre + " - Nota: " + min;
+			estudiante = " Nombre: " + json[i].nombre + " - Nota: " + min;
 		}        
     }
-    alert(out + estudiante);
+    alert(estudiante);
 }
 
 </script>
