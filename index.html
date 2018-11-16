@@ -8,29 +8,62 @@
 <div>
 
 <h1 id="titulo">Registro de Estudiante</h1>
-Codigo: <input type="text" /><br>
-Nombre: <input type="text" /><br>
-Curso: <input type="text"  /><br>
-Nota: <input type="text" /><br>
+Codigo: <input type="text" id="codigo"/><br>
+Nombre: <input type="text" id="nombre"/><br>
+Curso: <input type="text" id="curso" /><br>
+Nota: <input type="text" id="nota"/><br>
 
 </div>
-
+</form>
 	<table id="estudiantes" border="1">	
 	</table>
-
-	<table id="aprobados" border="1">	
-	</table>
-	<table id="reprobados" border="1">	
-	</table>
 	
-    <input type="submit" value="Registrar Estudiante">
-    <input type="submit" value="Mostrar Promedio"> 
-    <input type="submit" value="Mostrar Nota Mayor">
-    <input type="submit" value="Mostrar Nota Menor">
+    <button id="btn1"> Registrar Estudiante</button>
+    <button class="btn">Mostrar Promedio</button> 
+    <button class="btn">Mostrar Nota Mayor</button>
+    <button class="btn">Mostrar Nota Menor</button>
 
 </body>
 <script>
 
+function Estudiante(codigo, nombre, curso, nota) {
+
+		    this.codigo = codigo;
+		    this.nombre = nombre;
+		    this.curso = curso;
+		    this.nota = nota;
+			}
+
+var estudiantes=[];
+document.getElementById("btn1").addEventListener("click", function() {
+			//JSON.stringify(this.sitiosGuardados)
+			
+			var codigo = document.getElementById("codigo").value;
+			var nombre = document.getElementById("nombre").value;
+			var curso = document.getElementById("curso").value;
+			var nota = document.getElementById("nota").value;
+		
+			estudiantes.push(new Estudiante(codigo,nombre,curso,nota));
+		//	alert(JSON.stringify(estudiantes));
+			leerJSON(estudiantes);
+			});
+function leerJSON(json) {
+    var out = "Estudiantes <tr><th>Codigo</th><th>Nombre Completo</th><th>Nota</th></tr>";
+    var i;
+    for (i = 0; i < json.length; i++) {
+        out += "<tr><td>" + json[i].codigo + "</td><td>" + json[i].nombre + "</td><td>" + json[i].nota +"</td></tr>";
+    }
+    document.getElementById("estudiantes").innerHTML = out;
+}			
+
+function crearElemento() {
+
+        var encabezado = document.createElement("h4");
+        var texto = document.createTextNode("Alumno Registrado");
+        encabezado.appendChild(texto);
+        document.body.appendChild(encabezado);
+
+    }
 
 function calcularPromedio(json) {
 
